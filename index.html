@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitness na Prática — Transforme seu corpo em 30 dias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B132B;
+    --bg-soft: #101a3d;
+    --panel: #131c3f;
+    --orange: #FF6B35;
+    --orange-2: #FF3D2E;
+    --blue: #4CC9F0;
+    --chalk: #EDEDE9;
+    --chalk-dim: #A9AFC7;
+    --line: rgba(237,237,233,0.08);
+    --success: #3ddc84;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--chalk);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Anton',sans-serif;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    line-height:1.05;
+  }
+  a{text-decoration:none;color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+  /* PULSE LINE — signature element, runs through the page and beats faster near urgency sections */
+  .pulse-wrap{width:100%;overflow:hidden;line-height:0;}
+  .pulse-wrap svg{width:100%;display:block;}
+  .pulse-line{
+    fill:none;
+    stroke:var(--orange);
+    stroke-width:2.5;
+    stroke-linecap:round;
+    stroke-dasharray:1000;
+    stroke-dashoffset:1000;
+    animation:drawPulse 3.2s ease-out infinite;
+    filter:drop-shadow(0 0 6px rgba(255,107,53,0.55));
+  }
+  .pulse-fast .pulse-line{ animation-duration:1.1s; stroke:var(--orange-2); }
+  @keyframes drawPulse{
+    0%{stroke-dashoffset:1000;}
+    60%{stroke-dashoffset:0;}
+    100%{stroke-dashoffset:-200;}
+  }
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,19,43,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .logo{font-family:'Anton',sans-serif;font-size:20px;letter-spacing:1px;}
+  .logo span{color:var(--orange);}
+  .nav-cta{
+    background:var(--orange);
+    color:#0B132B;
+    font-weight:800;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    padding:12px 22px;
+    border-radius:999px;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,107,53,0.35);}
+
+  /* HERO */
+  .hero{
+    padding:72px 0 40px;
+    position:relative;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;top:-10%;right:-10%;
+    width:600px;height:600px;
+    background:radial-gradient(circle, rgba(76,201,240,0.15), transparent 70%);
+    z-index:0;
+  }
+  .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,107,53,0.12);
+    border:1px solid rgba(255,107,53,0.35);
+    color:var(--orange);
+    font-weight:700;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;
+    padding:8px 14px;border-radius:999px;
+    margin-bottom:20px;
+    opacity:0;animation:fadeUp .6s ease forwards;
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--orange-2);animation:blink 1.4s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
+
+  .hero h1{
+    font-size:clamp(38px,5.4vw,64px);
+    opacity:0;animation:fadeUp .7s ease forwards;animation-delay:.08s;
+  }
+  .hero h1 .accent{color:var(--orange);}
+  .hero p.lead{
+    margin-top:20px;font-size:18px;color:var(--chalk-dim);max-width:520px;
+    opacity:0;animation:fadeUp .7s ease forwards;animation-delay:.18s;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+  .price-row{
+    margin-top:32px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+    opacity:0;animation:fadeUp .7s ease forwards;animation-delay:.28s;
+  }
+  .price-old{font-size:22px;color:var(--chalk-dim);text-decoration:line-through;opacity:0.7;}
+  .price-new{font-family:'Anton',sans-serif;font-size:56px;color:var(--success);}
+  .price-new small{font-size:20px;vertical-align:top;}
+  .price-tag{
+    background:var(--orange-2);color:#fff;font-weight:800;font-size:12px;
+    padding:6px 10px;border-radius:6px;letter-spacing:0.5px;
+  }
+
+  .cta-btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(135deg,var(--orange),var(--orange-2));
+    color:#fff;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:0.5px;
+    padding:19px 34px;border-radius:12px;margin-top:26px;
+    box-shadow:0 12px 30px rgba(255,61,46,0.35);
+    transition:transform .18s ease, box-shadow .18s ease;
+    opacity:0;animation:fadeUp .7s ease forwards;animation-delay:.36s;
+  }
+  .cta-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 36px rgba(255,61,46,0.5);}
+  .cta-sub{display:block;font-size:12px;color:var(--chalk-dim);margin-top:10px;font-weight:500;text-transform:none;letter-spacing:0;
+    opacity:0;animation:fadeUp .7s ease forwards;animation-delay:.42s;}
+
+  .hero-visual{
+    position:relative;background:var(--panel);border:1px solid var(--line);border-radius:20px;
+    padding:28px;opacity:0;animation:fadeUp .8s ease forwards;animation-delay:.2s;
+  }
+  .countdown-box{
+    background:rgba(255,61,46,0.1);border:1px solid rgba(255,61,46,0.4);
+    border-radius:14px;padding:18px;text-align:center;margin-bottom:20px;
+  }
+  .countdown-label{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--orange-2);font-weight:800;margin-bottom:10px;}
+  .countdown{display:flex;justify-content:center;gap:10px;}
+  .countdown .unit{background:var(--bg);border-radius:8px;padding:10px 12px;min-width:58px;}
+  .countdown .num{font-family:'Anton',sans-serif;font-size:26px;color:#fff;}
+  .countdown .unit-label{font-size:10px;color:var(--chalk-dim);text-transform:uppercase;}
+
+  .checklist{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .checklist li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--chalk-dim);}
+  .checklist li::before{content:"✓";color:var(--success);font-weight:900;flex-shrink:0;}
+
+  /* TRUST BAR */
+  .trust-bar{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-soft);}
+  .trust-bar .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;padding:28px 24px;}
+  .trust-item{text-align:center;flex:1;min-width:120px;}
+  .trust-item .n{font-family:'Anton',sans-serif;font-size:30px;color:var(--orange);}
+  .trust-item .l{font-size:12px;color:var(--chalk-dim);text-transform:uppercase;letter-spacing:0.5px;}
+
+  /* SECTION GENERIC */
+  section{padding:88px 0;}
+  .section-head{text-align:center;max-width:640px;margin:0 auto 56px;}
+  .section-head .eyebrow{margin:0 auto 16px;}
+  .section-head h2{font-size:clamp(28px,4vw,42px);}
+  .section-head p{margin-top:14px;color:var(--chalk-dim);font-size:16px;}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* PROBLEM */
+  .problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .problem-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;}
+  .problem-card .ic{font-size:28px;margin-bottom:14px;}
+  .problem-card h3{font-family:'Inter';font-weight:800;font-size:16px;text-transform:none;margin-bottom:8px;}
+  .problem-card p{font-size:14px;color:var(--chalk-dim);}
+
+  /* METHOD */
+  .method-list{display:flex;flex-direction:column;gap:0;}
+  .method-item{
+    display:grid;grid-template-columns:90px 1fr;gap:24px;align-items:start;
+    padding:28px 0;border-bottom:1px solid var(--line);
+  }
+  .method-item:last-child{border-bottom:none;}
+  .method-num{font-family:'Anton',sans-serif;font-size:44px;color:var(--blue);opacity:0.85;}
+  .method-item h3{font-family:'Inter';font-weight:800;font-size:19px;text-transform:none;margin-bottom:6px;color:#fff;}
+  .method-item p{color:var(--chalk-dim);font-size:15px;max-width:600px;}
+
+  /* BENEFITS GRID */
+  .benefits-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .benefit{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 20px;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .benefit:hover{transform:translateY(-6px);border-color:var(--orange);}
+  .benefit .ic{width:44px;height:44px;border-radius:10px;background:rgba(255,107,53,0.15);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px;}
+  .benefit h3{font-family:'Inter';font-weight:800;font-size:15px;text-transform:none;margin-bottom:8px;}
+  .benefit p{font-size:13px;color:var(--chalk-dim);}
+
+  /* TESTIMONIALS */
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .testi{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;}
+  .stars{color:#FFC93C;font-size:14px;margin-bottom:12px;letter-spacing:2px;}
+  .testi p.quote{font-size:14px;color:var(--chalk-dim);margin-bottom:18px;}
+  .testi .who{display:flex;align-items:center;gap:12px;}
+  .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--blue));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#0B132B;}
+  .who .name{font-weight:700;font-size:13px;}
+  .who .tag{font-size:11px;color:var(--chalk-dim);}
+
+  /* PRICING */
+  .pricing-section{background:radial-gradient(ellipse at top, rgba(255,61,46,0.08), transparent 60%);}
+  .price-card{
+    max-width:560px;margin:0 auto;background:var(--panel);border:2px solid var(--orange-2);
+    border-radius:22px;padding:44px;text-align:center;position:relative;overflow:hidden;
+    box-shadow:0 30px 60px rgba(0,0,0,0.35);
+  }
+  .price-card .ribbon{
+    position:absolute;top:18px;right:-46px;background:var(--orange-2);color:#fff;font-weight:800;font-size:12px;
+    padding:6px 60px;transform:rotate(35deg);letter-spacing:1px;text-transform:uppercase;
+  }
+  .price-card .old{font-size:20px;color:var(--chalk-dim);text-decoration:line-through;}
+  .price-card .new{font-family:'Anton',sans-serif;font-size:78px;color:var(--success);margin:6px 0 4px;}
+  .price-card .new sup{font-size:26px;top:-1.4em;}
+  .price-card .per{font-size:13px;color:var(--chalk-dim);margin-bottom:26px;text-transform:uppercase;letter-spacing:0.5px;}
+  .bonus-list{list-style:none;text-align:left;margin:26px 0;display:flex;flex-direction:column;gap:12px;}
+  .bonus-list li{display:flex;gap:10px;font-size:14px;color:var(--chalk-dim);}
+  .bonus-list li::before{content:"➜";color:var(--orange);flex-shrink:0;}
+  .bonus-list li b{color:#fff;}
+  .guarantee{
+    display:flex;align-items:center;gap:12px;background:rgba(61,220,132,0.08);
+    border:1px solid rgba(61,220,132,0.3);border-radius:12px;padding:14px 16px;margin-top:22px;text-align:left;
+  }
+  .guarantee .g-ic{font-size:26px;}
+  .guarantee p{font-size:12.5px;color:var(--chalk-dim);}
+  .guarantee b{color:var(--success);}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:none;color:var(--chalk);
+    padding:20px 0;font-size:16px;font-weight:700;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .faq-q .plus{transition:transform .25s ease;color:var(--orange);font-size:20px;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .faq-a p{padding:0 0 20px;color:var(--chalk-dim);font-size:14px;max-width:700px;}
+
+  /* FINAL CTA */
+  .final-cta{text-align:center;}
+  .final-cta h2{font-size:clamp(30px,4.5vw,48px);}
+  .final-cta p{color:var(--chalk-dim);margin:16px auto 30px;max-width:520px;}
+
+  /* STICKY BAR */
+  .sticky-bar{
+    position:fixed;bottom:0;left:0;right:0;z-index:60;
+    background:rgba(11,19,43,0.95);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    transform:translateY(120%);transition:transform .35s ease;
+  }
+  .sticky-bar.show{transform:translateY(0);}
+  .sticky-bar .info{font-size:13px;color:var(--chalk-dim);}
+  .sticky-bar .info b{color:var(--success);font-size:16px;}
+  .sticky-cta{background:var(--orange-2);color:#fff;font-weight:800;font-size:13px;padding:12px 20px;border-radius:8px;text-transform:uppercase;white-space:nowrap;}
+
+  footer{padding:40px 0 100px;border-top:1px solid var(--line);text-align:center;}
+  footer p{font-size:12px;color:var(--chalk-dim);margin-bottom:6px;}
+
+  @media(max-width:900px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .problem-grid,.benefits-grid,.testi-grid{grid-template-columns:1fr 1fr;}
+    .benefits-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:640px){
+    .problem-grid,.benefits-grid,.testi-grid{grid-template-columns:1fr;}
+    .price-card{padding:30px 20px;}
+    .price-card .new{font-size:58px;}
+    .method-item{grid-template-columns:1fr;gap:8px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">FITNESS<span>NA PRÁTICA</span></div>
+    <a href="#comprar" class="nav-cta">Quero começar</a>
+  </div>
+</nav>
+
+<div class="pulse-wrap">
+  <svg viewBox="0 0 1200 40" preserveAspectRatio="none"><path class="pulse-line" d="M0,20 L200,20 L230,5 L260,35 L290,20 L1200,20"/></svg>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Vagas com desconto encerrando hoje</div>
+      <h1>Seu corpo novo começa <span class="accent">na prática</span>, não na teoria</h1>
+      <p class="lead">O método passo a passo que já tirou milhares de pessoas do zero e colocou treino, alimentação e disciplina dentro da rotina real — sem academia cara, sem dietas malucas, sem enrolação.</p>
+
+      <div class="price-row">
+        <span class="price-old">De US$ 310</span>
+        <span class="price-tag">88% OFF hoje</span>
+      </div>
+      <div class="price-new"><small>US$</small>37</div>
+
+      <a href="#comprar" class="cta-btn">Garantir minha vaga agora →</a>
+      <span class="cta-sub">🔒 Acesso imediato · Pagamento único · Garantia de 7 dias</span>
+    </div>
+
+    <div class="hero-visual">
+      <div class="countdown-box">
+        <div class="countdown-label">⚠ Esta oferta expira em</div>
+        <div class="countdown" id="countdown">
+          <div class="unit"><div class="num" id="cd-h">00</div><div class="unit-label">Horas</div></div>
+          <div class="unit"><div class="num" id="cd-m">14</div><div class="unit-label">Min</div></div>
+          <div class="unit"><div class="num" id="cd-s">59</div><div class="unit-label">Seg</div></div>
+        </div>
+      </div>
+      <ul class="checklist">
+        <li>Plano de treino completo (30 dias, nível iniciante a avançado)</li>
+        <li>Guia de alimentação prática, sem contar caloria a vida toda</li>
+        <li>Vídeos de execução de cada exercício</li>
+        <li>Grupo de apoio e acompanhamento semanal</li>
+        <li>Garantia incondicional de 7 dias — ou seu dinheiro de volta</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="trust-bar">
+  <div class="wrap">
+    <div class="trust-item"><div class="n">12.400+</div><div class="l">Alunos ativos</div></div>
+    <div class="trust-item"><div class="n">4.9/5</div><div class="l">Avaliação média</div></div>
+    <div class="trust-item"><div class="n">30 dias</div><div class="l">Para ver resultado</div></div>
+    <div class="trust-item"><div class="n">7 dias</div><div class="l">Garantia total</div></div>
+  </div>
+</div>
+
+<section id="problema">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">O problema real</div>
+      <h2>Você não precisa de mais força de vontade.<br>Precisa de um caminho claro.</h2>
+      <p>A maioria não trava por falta de esforço — trava porque tenta seguir um plano genérico, que não cabe na vida real.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="ic">📉</div>
+        <h3>Começa e para</h3>
+        <p>Sem estrutura, o ânimo dura duas semanas e some junto com os resultados.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="ic">🧩</div>
+        <h3>Informação demais, direção nenhuma</h3>
+        <p>Vídeo, dieta, app, blog — tudo diferente, nada junto. O resultado é confusão, não progresso.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="ic">⏳</div>
+        <h3>Rotina não encaixa</h3>
+        <p>Planos feitos para quem tem 2 horas livres por dia — e você não tem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="metodo" style="background:var(--bg-soft);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">O método</div>
+      <h2>4 passos. Sem enrolação.</h2>
+      <p>Fitness na Prática não é mais um curso motivacional — é um sistema que te leva pela mão do dia 1 ao dia 30.</p>
+    </div>
+    <div class="method-list">
+      <div class="method-item reveal">
+        <div class="method-num">01</div>
+        <div><h3>Diagnóstico rápido</h3><p>Você descobre seu ponto de partida real e monta seu plano de 30 dias em minutos, sem planilha complicada.</p></div>
+      </div>
+      <div class="method-item reveal">
+        <div class="method-num">02</div>
+        <div><h3>Treino guiado em vídeo</h3><p>Cada exercício explicado na prática, com adaptações para casa ou academia — você nunca fica sem saber o que fazer.</p></div>
+      </div>
+      <div class="method-item reveal">
+        <div class="method-num">03</div>
+        <div><h3>Alimentação sem drama</h3><p>Um guia direto de como montar o prato, sem contar caloria a vida toda nem cortar tudo que você gosta.</p></div>
+      </div>
+      <div class="method-item reveal">
+        <div class="method-num">04</div>
+        <div><h3>Acompanhamento semanal</h3><p>Check-ins toda semana para ajustar o plano e manter a constância mesmo nas semanas difíceis.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pulse-wrap">
+  <svg viewBox="0 0 1200 40" preserveAspectRatio="none"><path class="pulse-line" d="M0,20 L300,20 L320,2 L340,38 L360,20 L1200,20"/></svg>
+</div>
+
+<section id="beneficios">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">O que você recebe</div>
+      <h2>Tudo o que você precisa. Nada do que sobra.</h2>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit reveal"><div class="ic">🏋️</div><h3>Treinos de 30 dias</h3><p>Progressão semanal, do zero ao avançado.</p></div>
+      <div class="benefit reveal"><div class="ic">🥗</div><h3>Guia de alimentação</h3><p>Prático, direto, sem modismo.</p></div>
+      <div class="benefit reveal"><div class="ic">📱</div><h3>Acesso pelo celular</h3><p>Treine em qualquer lugar, sem app pesado.</p></div>
+      <div class="benefit reveal"><div class="ic">👥</div><h3>Comunidade de apoio</h3><p>Gente na mesma jornada, todos os dias.</p></div>
+      <div class="benefit reveal"><div class="ic">📈</div><h3>Acompanhamento semanal</h3><p>Ajustes reais no seu plano, toda semana.</p></div>
+      <div class="benefit reveal"><div class="ic">🎥</div><h3>Vídeos de execução</h3><p>Nunca mais treine no chute.</p></div>
+      <div class="benefit reveal"><div class="ic">🛡️</div><h3>Garantia de 7 dias</h3><p>Não gostou, devolvemos 100%.</p></div>
+      <div class="benefit reveal"><div class="ic">⚡</div><h3>Acesso imediato</h3><p>Comece hoje, sem espera.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="depoimentos" style="background:var(--bg-soft);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Quem já vive na prática</div>
+      <h2>Resultados de gente como você</h2>
+      <p>Depoimentos ilustrativos de alunos da comunidade Fitness na Prática.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi reveal">
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Fitness na Prática" — Já tinha tentado de tudo. Aqui o diferencial foi ter um passo a passo simples de seguir, sem complicar.</p>
+        <div class="who"><div class="avatar">MJ</div><div><div class="name">Marina J.</div><div class="tag">Aluna há 3 meses</div></div></div>
+      </div>
+      <div class="testi reveal">
+        <div class="stars">★★★★★</div>
+        <p class="quote">O acompanhamento semanal fez toda diferença. Sabia exatamente o que ajustar quando travava.</p>
+        <div class="who"><div class="avatar">RT</div><div><div class="name">Rafael T.</div><div class="tag">Aluno há 2 meses</div></div></div>
+      </div>
+      <div class="testi reveal">
+        <div class="stars">★★★★★</div>
+        <p class="quote">O guia de alimentação foi o que mais me ajudou. Simples de seguir mesmo com rotina cheia.</p>
+        <div class="who"><div class="avatar">CS</div><div><div class="name">Camila S.</div><div class="tag">Aluna há 1 mês</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pulse-wrap pulse-fast">
+  <svg viewBox="0 0 1200 40" preserveAspectRatio="none"><path class="pulse-line" d="M0,20 L150,20 L165,4 L180,36 L195,20 L400,20 L415,4 L430,36 L445,20 L1200,20"/></svg>
+</div>
+
+<section id="comprar" class="pricing-section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="dot" style="background:var(--orange-2);animation:blink 1.4s infinite;display:inline-block;width:7px;height:7px;border-radius:50%;"></span> Oferta por tempo limitado</div>
+      <h2>Comece hoje por menos de um café por dia</h2>
+    </div>
+    <div class="price-card reveal">
+      <div class="ribbon">88% OFF</div>
+      <div class="old">US$ 310</div>
+      <div class="new"><sup>US$</sup>37</div>
+      <div class="per">Pagamento único · Acesso vitalício</div>
+      <ul class="bonus-list">
+        <li><b>Plano de treino completo</b> — 30 dias de progressão guiada</li>
+        <li><b>Guia de alimentação prática</b> — sem contar caloria a vida toda</li>
+        <li><b>Bônus: comunidade de apoio</b> — acesso incluso, sem custo extra</li>
+        <li><b>Bônus: acompanhamento semanal</b> — ajustes no seu plano toda semana</li>
+      </ul>
+      <a href="#" class="cta-btn" style="width:100%;">Quero garantir por US$ 37 →</a>
+      <div class="guarantee">
+        <div class="g-ic">🛡️</div>
+        <p><b>Garantia de 7 dias.</b> Se não sentir diferença na prática, devolvemos 100% do valor — sem perguntas, sem burocracia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Perguntas frequentes</div>
+      <h2>Ainda com dúvida?</h2>
+    </div>
+    <div style="max-width:720px;margin:0 auto;">
+      <div class="faq-item reveal">
+        <button class="faq-q">Preciso de academia para seguir o método? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Não. O programa traz versões para treinar em casa ou na academia, você escolhe o que encaixa na sua rotina.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Sou totalmente iniciante, funciona pra mim? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Sim. O plano começa do zero e vai progredindo semana a semana, respeitando seu ritmo.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Como funciona a garantia? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Você tem 7 dias para testar. Se sentir que não é para você, basta solicitar o reembolso — devolvemos 100% do valor.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Por quanto tempo tenho acesso? <span class="plus">+</span></button>
+        <div class="faq-a"><p>O acesso é vitalício: você entra quando quiser e revisita o conteúdo sempre que precisar.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">O preço de US$ 37 vai continuar assim? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Esta é uma condição promocional por tempo limitado. Depois que a contagem regressiva chegar a zero, o valor volta ao preço cheio.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <h2 class="reveal">A prática começa quando você decide.</h2>
+    <p class="reveal">Menos teoria, menos desculpa, mais resultado. Sua vaga com desconto está reservada — mas só até o cronômetro zerar.</p>
+    <a href="#comprar" class="cta-btn reveal">Quero minha vaga por US$ 37 →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Fitness na Prática © 2026. Resultados variam de pessoa para pessoa e dependem de esforço individual.</p>
+    <p>Este site não é afiliado ao Facebook, Instagram ou Google.</p>
+  </div>
+</footer>
+
+<div class="sticky-bar" id="stickyBar">
+  <div class="info">Oferta acaba em <b id="sb-time">14:59</b></div>
+  <a href="#comprar" class="sticky-cta">Garantir por US$ 37</a>
+</div>
+
+<script>
+  // Countdown timer — 15 minutes urgency window
+  let totalSeconds = 15*60 - 1;
+  const cdH=document.getElementById('cd-h'), cdM=document.getElementById('cd-m'), cdS=document.getElementById('cd-s'), sbTime=document.getElementById('sb-time');
+  function tick(){
+    if(totalSeconds<=0){ totalSeconds = 15*60; } // loop to keep sense of ongoing urgency
+    totalSeconds--;
+    const h = Math.floor(totalSeconds/3600);
+    const m = Math.floor((totalSeconds%3600)/60);
+    const s = totalSeconds%60;
+    cdH.textContent = String(h).padStart(2,'0');
+    cdM.textContent = String(m).padStart(2,'0');
+    cdS.textContent = String(s).padStart(2,'0');
+    sbTime.textContent = String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+  }
+  tick();
+  setInterval(tick,1000);
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  },{threshold:0.15});
+  revealEls.forEach(el=>obs.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i=>{ i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight = null; });
+      if(!isOpen){ item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+    });
+  });
+
+  // Sticky bar reveal after hero
+  const stickyBar = document.getElementById('stickyBar');
+  const heroEl = document.querySelector('.hero');
+  const stickyObs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting){ stickyBar.classList.add('show'); } else { stickyBar.classList.remove('show'); }
+    });
+  },{threshold:0});
+  stickyObs.observe(heroEl);
+</script>
+
+</body>
+</html>
